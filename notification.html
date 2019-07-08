@@ -1,0 +1,84 @@
+<meta charset="utf-8">
+<script src="jquery.js"></script>
+<style>
+    #sub{
+        width:70px;
+        height:35px;
+        background:rgb(255, 57, 57);
+        color:white;
+        border-radius:10px;
+        text-align:center;
+        line-height:35px;
+        font-family:'微軟正黑體';
+        font-size:14px;
+        cursor:pointer;
+    }
+</style>
+<div id="sub">訂閱</div>
+<script>
+// 網頁推播  ------------------------------------------------------------------------------------
+if(!('Notification' in window)){
+    console.log('This browser does not support notification');
+}else{
+    var notifyConfig ={
+        body:'123456',
+        icon:'icon.png',
+    }
+    if(Notification.permission=='default' || Notification.permission==='underfined'){   
+        Notification.requestPermission(function (permission){       //請求通知 
+            //permission 可為 granted 同意 denied 拒絕 default 未授權
+            if(permission==='granted'){
+                var notify=new Notification('Hi there!',notifyConfig);
+                notify.onclick=function(e){
+                    e.preventDefault();
+                    window.open('http://www.google.com');
+                }
+            }
+        });
+    }
+}
+let opentime="2019/7/8 16:04";
+function checktime(){
+    let date=new Date;
+    console.log(format(date));
+    setTimeout(checktime,60000);
+    if(opentime==format(date)){
+        var notifition=new Notification('首播通知',{
+            body:'Anime Music Radio 24/7',
+            icon:'icon.png',
+            // image 圖片(url)
+            // dir 文字顯示方向 ltr 左至右
+            // lang 繁中zh-Hant
+            // vibrate 震動模式 [100,50,200]震100ms 停50ms 震200ms
+            // badge 顯示狀態列的圖示(url)
+            // tag 通知的ID
+            // renotify 設定同意組通知更新後，是否要再通知使用者一次true/false
+            // action 設定通知上的選項
+        });
+        notifition.onclick=function(e){
+            e.preventDefault();
+            window.open('https://www.youtube.com/watch?v=AvQka2HrceY');
+        }
+    }
+}
+function format(date){
+    let year=date.getFullYear(),
+        month=date.getMonth()+1,
+        day=date.getDate(),
+        hour=date.getHours()<10?"0"+date.getHours():date.getHours(),
+        minute= date.getMinutes()<10?"0"+date.getMinutes():date.getMinutes();
+    return year+"/"+month+"/"+day+" "+hour+":"+minute;
+}
+checktime();
+//--------------------------------------------------------------------------------------------
+$("#sub").on("click",function(){
+    // navigator.serviceWorker.ready.then(function(){
+
+    // });
+    var notifition=new Notification('推播',{
+            body:'訂閱成功',
+            icon:'icon.png',
+        });
+});
+
+</script>
